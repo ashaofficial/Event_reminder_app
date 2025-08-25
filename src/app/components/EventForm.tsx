@@ -1,0 +1,68 @@
+"use client";
+import { useState } from "react";
+import { Event } from "@/../types/event"; 
+import { v4 as uuidv4 } from "uuid";
+
+type Props = {
+  onAdd: (event: Event) => void;
+};
+
+export default function EventForm({ onAdd }: Props) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
+  const [remindBefore, setRemindBefore] = useState(10);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title || !date) return;
+
+    const newEvent: Event = {
+      id: uuidv4(),
+      title,
+      description,
+      date,
+      remindBefore,
+    };
+
+    onAdd(newEvent);
+    setTitle("");
+    setDescription("");
+    setDate("");
+    setRemindBefore(10);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="p-4 space-y-3 bg-gray-100 rounded-2xl shadow-md">
+      <input
+        type="text"
+        placeholder="Event Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="w-full p-2 border rounded"
+      />
+      <textarea
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="w-full p-2 border rounded"
+      />
+      <input
+        type="datetime-local"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        className="w-full p-2 border rounded"
+      />
+      <input
+        type="number"
+        value={remindBefore}
+        onChange={(e) => setRemindBefore(Number(e.target.value))}
+        className="w-full p-2 border rounded"
+        placeholder="Remind before (minutes)"
+      />
+      <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">
+        Add Event
+      </button>
+    </form>
+  );
+}
