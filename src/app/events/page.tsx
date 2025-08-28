@@ -4,29 +4,20 @@ import EventForm from "../components/EventForm";
 import EventList from "../components/EventList";
 import Reminder from "../components/Reminder";
 import { Event } from "@/../types/event";
-import { getEvents, addEvent } from "@/../lib/api";
+import { getEvents, saveEvents } from "@/app/lib/storage";
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getEvents()
-      .then(setEvents)
-      .finally(() => setLoading(false));
+    setEvents(getEvents());
   }, []);
 
-  const handleAdd = async (event: Event) => {
-    const saved = await addEvent({
-      title: event.title,
-      description: event.description,
-      date: event.date,
-      remindBefore: event.remindBefore,
-    });
-    setEvents((prev) => [...prev, saved]);
+  const handleAdd = (event: Event) => {
+    const updated = [...events, event];
+    setEvents(updated);
+    saveEvents(updated);
   };
-
-  if (loading) return <p className="text-center">Loading events...</p>;
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">

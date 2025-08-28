@@ -1,27 +1,22 @@
 "use client";
 import { Event } from "@/../types/event";
 
-type Props = {
-  events: Event[];
-};
-
-export default function EventList({ events }: Props) {
-  if (events.length === 0) {
-    return <p className="text-center text-gray-500 mt-4">No events added yet.</p>;
-  }
+export default function EventList({ events }: { events: Event[] }) {
+  if (!events.length) return <p className="text-center text-gray-500">No events yet.</p>;
 
   return (
-    <ul className="space-y-3 mt-4">
-     {events.map((event, index) => (
-  <li key={`${event.id}-${index}`} className="p-4 bg-white rounded-xl shadow flex justify-between">
-    <div>
-      <h3 className="font-semibold">{event.title}</h3>
-      <p className="text-sm text-gray-600">{event.description}</p>
+<ul className="mt-4 space-y-3">
+  {events.map((ev, idx) => (
+    <li key={ev.id ?? idx} className="p-4 bg-white rounded-xl shadow">
+      <h3 className="font-semibold">{ev.title}</h3>
+      <p className="text-sm text-gray-600">{ev.description}</p>
       <p className="text-xs text-gray-400">
-        {new Date(event.date).toLocaleString()} (Remind {event.remindBefore} min before)
+        {new Date(ev.date).toLocaleString()} (Remind {ev.remindBefore} min before)
       </p>
-    </div>
-  </li>
-))}
-</ul>);
+    </li>
+  ))}
+</ul>
+
+
+  );
 }
