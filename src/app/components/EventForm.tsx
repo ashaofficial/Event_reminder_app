@@ -33,7 +33,7 @@ export default function EventForm({ onAdd }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-gray-100 rounded-xl shadow space-y-3">
+    <form onSubmit={handleSubmit} className="p-4 bg-[#85b3cc] rounded-xl shadow-xl/20 space-y-4">
       <input
         type="text"
         value={title}
@@ -60,7 +60,7 @@ export default function EventForm({ onAdd }: Props) {
         className="w-full border p-2 rounded"
         placeholder="Remind before (minutes)"
       />
-      <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded">
+      <button type="submit" className="w-full bg-[#385E72] hover:bg-[#2a4655] text-white p-2 rounded">
         Add Event
       </button>
     </form>
